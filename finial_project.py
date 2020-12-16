@@ -221,7 +221,7 @@ def build_city_list():
     response_text = make_url_after_check_cache(city_rank_url, CACHE_DICT)
     soup = BeautifulSoup(response_text, 'html.parser')
     found_list = soup.find_all(class_="slide-layout clearfix")
-    city_list = []
+    in_city_list = []
     for city_result in found_list:
         title = city_result.find("h2", class_="slide-title-text").text
         first_split = title.split('.')
@@ -230,8 +230,8 @@ def build_city_list():
                     second_split[0].strip(),
                     second_split[-1].strip(),
                     city_result.find('p').text)
-        city_list.append(city)
-    return city_list
+        in_city_list.append(city)
+    return in_city_list
 
 
 def save_to_cities_table(in_city_list):
@@ -457,7 +457,7 @@ def get_info_from_dataset(props, params=None):
         real_props += f"b.{props[i]}, "
     real_props = real_props[:-2]
     command = f'SELECT {real_props} FROM Locations as b'
-    if params != None:
+    if params is not None:
         keys = list(params.keys())
         for key in keys:
             if keys.index(key) == 0:
